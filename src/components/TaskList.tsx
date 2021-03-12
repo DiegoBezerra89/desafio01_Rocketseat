@@ -4,16 +4,6 @@ import '../styles/tasklist.scss'
 
 import { FiTrash, FiCheckSquare, FiX } from 'react-icons/fi'
 
-
-/*
-  Você deve criar as funcionalidades para as três funções presentes nesse arquivo, que são:
-
-- **handleCreateNewTask**: Deve ser possível adicionar uma nova task no estado de `tasks`, com os campos `id` que deve ser gerado de forma aleatória, `title` que deve ser um texto e `isComplete` que deve iniciar como false.
-- **handleToggleTaskCompletion:** Deve alterar o status de `isComplete` para uma task com um ID específico que é recebido por parâmetro.
-- **handleRemoveTask:** Deve receber um ID por parâmetro e remover a task que contém esse ID do estado.
-
-*/
-
 interface Task {
   id: number;
   title: string;
@@ -25,17 +15,52 @@ export function TaskList() {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   
   let disabledButton = false;
-
+  
   function handleCreateNewTask() {
-    // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+    
+    const task = {
+      id: Math.random(),
+      title: newTaskTitle,
+      isComplete: false,
+    }
+    
+    const tasksArray = [
+      ...tasks
+    ]
+    
+    tasksArray.push(task);
+
+    setTasks(tasksArray);
   }
 
   function handleToggleTaskCompletion(id: number) {
-    // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
+    
+    const tasksArray = [
+      ...tasks
+    ]
+
+    tasksArray.forEach((item)=> {
+      if(item.id === id) {
+        item.isComplete = !item.isComplete;
+      }
+    });
+    
+    setTasks(tasksArray);
   }
 
   function handleRemoveTask(id: number) {
-    // Remova uma task da listagem pelo ID
+    
+    const tasksArray = [
+      ...tasks
+    ]
+    
+    tasksArray.forEach((item, index)=> {
+      if(item.id === id) {
+        tasksArray.splice(index,1);
+      }
+    });
+
+    setTasks(tasksArray);
   }
 
   return (
